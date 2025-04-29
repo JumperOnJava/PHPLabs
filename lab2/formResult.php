@@ -1,6 +1,5 @@
 <?php
-//formResult.php
-session_start(); // Додаємо сесію
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lang = $_COOKIE['lang'] ?? "en";
@@ -13,9 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $_SESSION['city'] = $_POST['city'];
     $_SESSION['games'] = $_POST['games'] ?? [];
     $_SESSION['about'] = $_POST['about'];
-    // Фотографію не зберігаємо в сесії, як зазначено в завданні
 
-    // Language strings
     $translations = [
         "en" => [
             "title" => "Registration Result",

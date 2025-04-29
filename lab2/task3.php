@@ -1,10 +1,9 @@
 <?php
-session_start(); // Додаємо сесію
+session_start();
 
 $lang = $_GET['lang'] ?? $_COOKIE['lang'] ?? "en";
 setcookie("lang", $lang, time() + (86400 * 30 * 6), "/");
 
-// Отримуємо дані з сесії для заповнення форми
 $login = $_SESSION['login'] ?? '';
 $password1 = $_SESSION['password1'] ?? '';
 $password2 = $_SESSION['password2'] ?? '';
@@ -13,7 +12,6 @@ $city = $_SESSION['city'] ?? '';
 $games = $_SESSION['games'] ?? [];
 $about = $_SESSION['about'] ?? '';
 
-// Language strings
 $translations = [
     "en" => [
         "title" => "Registration Form",
@@ -62,10 +60,8 @@ $translations = [
     ]
 ];
 
-// Select language
 $trans = $translations[$lang] ?? $translations["en"];
 
-// Визначення обраних опцій
 $cityOptions = [
     "Zhytomyr" => ($city == "Zhytomyr") ? "selected" : "",
     "Kyiv" => ($city == "Kyiv") ? "selected" : "",
