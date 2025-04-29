@@ -1,7 +1,19 @@
 <?php
 //formResult.php
+session_start(); // Додаємо сесію
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lang = $_COOKIE['lang'] ?? "en";
+
+    // Зберігаємо дані форми в сесії
+    $_SESSION['login'] = $_POST['login'];
+    $_SESSION['password1'] = $_POST['password1'];
+    $_SESSION['password2'] = $_POST['password2'];
+    $_SESSION['gender'] = $_POST['gender'];
+    $_SESSION['city'] = $_POST['city'];
+    $_SESSION['games'] = $_POST['games'] ?? [];
+    $_SESSION['about'] = $_POST['about'];
+    // Фотографію не зберігаємо в сесії, як зазначено в завданні
 
     // Language strings
     $translations = [

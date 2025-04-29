@@ -1,6 +1,18 @@
 <?php
+session_start(); // Додаємо сесію
+
 $lang = $_GET['lang'] ?? $_COOKIE['lang'] ?? "en";
 setcookie("lang", $lang, time() + (86400 * 30 * 6), "/");
+
+// Отримуємо дані з сесії для заповнення форми
+$login = $_SESSION['login'] ?? '';
+$password1 = $_SESSION['password1'] ?? '';
+$password2 = $_SESSION['password2'] ?? '';
+$gender = $_SESSION['gender'] ?? '';
+$city = $_SESSION['city'] ?? '';
+$games = $_SESSION['games'] ?? [];
+$about = $_SESSION['about'] ?? '';
+
 // Language strings
 $translations = [
     "en" => [
@@ -53,6 +65,24 @@ $translations = [
 // Select language
 $trans = $translations[$lang] ?? $translations["en"];
 
+// Визначення обраних опцій
+$cityOptions = [
+    "Zhytomyr" => ($city == "Zhytomyr") ? "selected" : "",
+    "Kyiv" => ($city == "Kyiv") ? "selected" : "",
+    "Lviv" => ($city == "Lviv") ? "selected" : ""
+];
+
+$genderMale = ($gender == $trans["male"]) ? "checked" : "";
+$genderFemale = ($gender == $trans["female"]) ? "checked" : "";
+
+$gameOptions = [
+    "Football" => in_array("Football", $games) ? "checked" : "",
+    "Basketball" => in_array("Basketball", $games) ? "checked" : "",
+    "Volleyball" => in_array("Volleyball", $games) ? "checked" : "",
+    "Chess" => in_array("Chess", $games) ? "checked" : "",
+    "Fortnite" => in_array("Fortnite", $games) ? "checked" : ""
+];
+
 echo "
 <!DOCTYPE html>
 <html lang=\"$lang\">
@@ -66,46 +96,46 @@ echo "
     <table>
         <tr>
             <td>{$trans["login"]}</td>
-            <td><input type=\"email\" name=\"login\" required></td>
+            <td><input type=\"email\" name=\"login\" value=\"" . htmlspecialchars($login) . "\" required></td>
         </tr>
         <tr>
             <td>{$trans["password"]}</td>
-            <td><input type=\"password\" name=\"password1\" required></td>
+            <td><input type=\"password\" name=\"password1\" value=\"" . htmlspecialchars($password1) . "\" required></td>
         </tr>
         <tr>
             <td>{$trans["password_repeat"]}</td>
-            <td><input type=\"password\" name=\"password2\" required></td>
+            <td><input type=\"password\" name=\"password2\" value=\"" . htmlspecialchars($password2) . "\" required></td>
         </tr>
         <tr>
             <td>{$trans["gender"]}</td>
             <td>
-                <input type=\"radio\" name=\"gender\" value=\"{$trans["male"]}\" required> {$trans["male"]}
-                <input type=\"radio\" name=\"gender\" value=\"{$trans["female"]}\" required> {$trans["female"]}
+                <input type=\"radio\" name=\"gender\" value=\"{$trans["male"]}\" $genderMale required> {$trans["male"]}
+                <input type=\"radio\" name=\"gender\" value=\"{$trans["female"]}\" $genderFemale required> {$trans["female"]}
             </td>
         </tr>
         <tr>
             <td>{$trans["city"]}</td>
             <td>
                 <select name=\"city\">
-                    <option value=\"Zhytomyr\">Zhytomyr</option>
-                    <option value=\"Kyiv\">Kyiv</option>
-                    <option value=\"Lviv\">Lviv</option>
+                    <option value=\"Zhytomyr\" {$cityOptions["Zhytomyr"]}>Zhytomyr</option>
+                    <option value=\"Kyiv\" {$cityOptions["Kyiv"]}>Kyiv</option>
+                    <option value=\"Lviv\" {$cityOptions["Lviv"]}>Lviv</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td>{$trans["games"]}</td>
             <td>
-                <input type=\"checkbox\" name=\"games[]\" value=\"Football\"> Football<br>
-                <input type=\"checkbox\" name=\"games[]\" value=\"Basketball\"> Basketball<br>
-                <input type=\"checkbox\" name=\"games[]\" value=\"Volleyball\"> Volleyball<br>
-                <input type=\"checkbox\" name=\"games[]\" value=\"Chess\"> Chess<br>
-                <input type=\"checkbox\" name=\"games[]\" value=\"Fortnite\"> Fortnite
+                <input type=\"checkbox\" name=\"games[]\" value=\"Football\" {$gameOptions["Football"]}> Football<br>
+                <input type=\"checkbox\" name=\"games[]\" value=\"Basketball\" {$gameOptions["Basketball"]}> Basketball<br>
+                <input type=\"checkbox\" name=\"games[]\" value=\"Volleyball\" {$gameOptions["Volleyball"]}> Volleyball<br>
+                <input type=\"checkbox\" name=\"games[]\" value=\"Chess\" {$gameOptions["Chess"]}> Chess<br>
+                <input type=\"checkbox\" name=\"games[]\" value=\"Fortnite\" {$gameOptions["Fortnite"]}> Fortnite
             </td>
         </tr>
         <tr>
             <td>{$trans["about"]}</td>
-            <td><textarea name=\"about\"></textarea></td>
+            <td><textarea name=\"about\">" . htmlspecialchars($about) . "</textarea></td>
         </tr>
         <tr>
             <td>{$trans["photo"]}</td>
