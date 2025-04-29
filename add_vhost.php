@@ -1075,7 +1075,7 @@ $pageContents = <<< EOPAGE
       <li>{$langueswitcher}</li>
 	  </ul>
 	</div>
-	<ul class='vhost' style='text-align:center;'><li><a href="add_vhost.php?lang={$langue}">{$langues['addVirtual']}</a> - <a href="index.php?lang={$langue}">{$langues['backHome']}</a></li></ul>
+	<ul class='vhost' style='text-align:center;'><li><a href="add_vhost.php?lang={$langue}">{$langues['addVirtual']}</a> - <a href="task1.php?lang={$langue}">{$langues['backHome']}</a></li></ul>
 
 EOPAGE;
 
